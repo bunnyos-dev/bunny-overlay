@@ -29,11 +29,11 @@ jobs:
         run: emerge-webrsync -q
       - name: Add this overlay
         run: |
-          mkdir -p /var/db/repos /etc/portage/repos.conf
+          mkdir -p /var/db/repos /etc/portage/repos.conf /etc/portage/package.accept_keywords
           cp -r overlay /var/db/repos/bunny
           printf '[bunny]\nlocation = /var/db/repos/bunny\n' > /etc/portage/repos.conf/bunny.conf
           # Live ebuilds aren't keyworded; accept this one for the test.
-          printf 'app-admin/bunny **\n' > /etc/portage/package.accept_keywords
+          printf 'app-admin/bunny **\n' > /etc/portage/package.accept_keywords/bunny
       - name: Use Gentoo's prebuilt packages where there are some
         run: |
           printf 'FEATURES="getbinpkg -ipc-sandbox -network-sandbox -pid-sandbox"\n' >> /etc/portage/make.conf
