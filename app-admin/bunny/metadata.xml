@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="project">
+		<name>BunnyOS</name>
+	</maintainer>
+	<longdescription>
+		bunny describes a whole Gentoo system in one file (bunny.toml) and
+		makes the system match it: packages, USE flags, services and admin
+		rights. Every change is saved as a btrfs snapshot that can be undone,
+		and emerge's errors are explained in plain English. This package
+		builds the latest code from git; app-admin/bunny-bin installs the
+		prebuilt release.
+	</longdescription>
+	<upstream>
+		<remote-id type="github">bunnyos-dev/bunnyos</remote-id>
+		<bugs-to>https://github.com/bunnyos-dev/bunnyos/issues</bugs-to>
+		<doc>https://bunnyos-dev.github.io/bunnyos/</doc>
+	</upstream>
+</pkgmetadata>

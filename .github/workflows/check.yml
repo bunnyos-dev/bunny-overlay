@@ -1,0 +1,46 @@
+name: Check
+
+# Installs each package in a fresh Gentoo container, the way a user would:
+# the overlay added as a repository, then emerge. Runs on every change and
+# once a week, so a change in Gentoo that breaks an ebuild shows up here.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "41 9 * * 2"
+  workflow_dispatch:
+
+jobs:
+  install:
+    name: emerge ${{ matrix.package }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [app-admin/bunny-bin, app-admin/bunny]
+    container:
+      image: gentoo/stage3:latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: overlay
+      - name: Get the Gentoo tree
+        run: emerge-webrsync -q
+      - name: Add this overlay
+        run: |
+          mkdir -p /var/db/repos /etc/portage/repos.conf
+          cp -r overlay /var/db/repos/bunny
+          printf '[bunny]\nlocation = /var/db/repos/bunny\n' > /etc/portage/repos.conf/bunny.conf
+          # Live ebuilds aren't keyworded; accept this one for the test.
+          printf 'app-admin/bunny **\n' > /etc/portage/package.accept_keywords
+      - name: Use Gentoo's prebuilt packages where there are some
+        run: |
+          printf 'FEATURES="getbinpkg -ipc-sandbox -network-sandbox -pid-sandbox"\n' >> /etc/portage/make.conf
+          getuto
+      - name: Install
+        run: emerge --quiet-build --oneshot "${{ matrix.package }}"
+      - name: Run it
+        run: |
+          bunny --version
+          bunny check --help >/dev/null
