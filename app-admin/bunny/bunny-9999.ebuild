@@ -22,6 +22,8 @@ RDEPEND="
 
 src_unpack() {
 	git-r3_src_unpack
+	# cargo fetches the crates from the checkout's Cargo.toml.
+	cd "${S}" || die
 	cargo_live_src_unpack
 }
 
