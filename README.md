@@ -1,7 +1,7 @@
 # bunny-overlay
 
-The Gentoo overlay for [BunnyOS](https://github.com/bunnyos-dev/bunnyos):
-`bunny` today, and the BunnyOS desktop packages later.
+The Gentoo overlay for [Bunny Linux](https://github.com/bunnyos-dev/bunnyos):
+`bunny` today, and the Bunny Linux desktop packages later.
 
 | Package | What it is |
 |---|---|

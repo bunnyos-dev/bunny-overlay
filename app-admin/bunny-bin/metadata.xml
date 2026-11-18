@@ -2,7 +2,7 @@
 <!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<maintainer type="project">
-		<name>BunnyOS</name>
+		<name>Bunny Linux</name>
 	</maintainer>
 	<longdescription>
 		bunny describes a whole Gentoo system in one file (bunny.toml) and

@@ -1,4 +1,4 @@
-# Copyright 2026 BunnyOS contributors
+# Copyright 2026 Bunny Linux contributors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
