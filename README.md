@@ -27,6 +27,11 @@ bunny --version
 
 Then follow the guide: https://bunnyos-dev.github.io/bunnyos/
 
+## Replacing Gentoo's packages
+
+A package here with the same name as one in Gentoo's tree replaces Gentoo's.
+Each of those needs a reason in [OVERRIDES.md](OVERRIDES.md); CI checks it.
+
 ## Licence
 
 The ebuilds and other files here are GPL-2, like Gentoo's own tree. bunny
