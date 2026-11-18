@@ -12,6 +12,20 @@ on:
   workflow_dispatch:
 
 jobs:
+  overrides:
+    name: OVERRIDES.md up to date
+    runs-on: ubuntu-latest
+    container:
+      image: gentoo/stage3:latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: overlay
+      - name: Get the Gentoo tree
+        run: emerge-webrsync -q
+      - name: Check every package that replaces Gentoo's has a reason
+        run: overlay/tools/check-overrides.sh overlay /var/db/repos/gentoo
+
   install:
     name: emerge ${{ matrix.package }}
     runs-on: ubuntu-latest
