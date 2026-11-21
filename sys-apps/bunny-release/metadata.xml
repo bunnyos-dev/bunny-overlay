@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="project">
+		<name>Bunny Linux</name>
+	</maintainer>
+	<longdescription>
+		Says the system is Bunny Linux: an /etc/os-release with
+		NAME="Bunny Linux", ID=bunny and ID_LIKE=gentoo (Gentoo's own stays
+		in /usr/lib/os-release), plus Bunny Linux's logo and a system-wide
+		fastfetch setting that shows it. The logo is a placeholder until
+		the real one is designed.
+	</longdescription>
+	<upstream>
+		<remote-id type="github">bunnyos-dev/bunnyos</remote-id>
+		<bugs-to>https://github.com/bunnyos-dev/bunnyos/issues</bugs-to>
+	</upstream>
+</pkgmetadata>
