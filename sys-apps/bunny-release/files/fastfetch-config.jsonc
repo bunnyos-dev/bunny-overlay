@@ -1,0 +1,48 @@
+// Bunny Linux: fastfetch's settings for everyone on this computer.
+// Installed by sys-apps/bunny-release. Your own
+// ~/.config/fastfetch/config.jsonc takes over from this one.
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    // Bunny Linux's logo (a placeholder until the real one is designed).
+    // fastfetch would otherwise show Gentoo's, from ID_LIKE=gentoo.
+    "logo": {
+        "type": "file",
+        "source": "/usr/share/bunny-release/logo.txt",
+        "color": {
+            "1": "white"
+        }
+    },
+    // fastfetch's own default list. A config file has to name the modules,
+    // or fastfetch shows none.
+    "modules": [
+        "title",
+        "separator",
+        "os",
+        "host",
+        "kernel",
+        "uptime",
+        "packages",
+        "shell",
+        "display",
+        "de",
+        "wm",
+        "wmtheme",
+        "theme",
+        "icons",
+        "font",
+        "cursor",
+        "terminal",
+        "terminalfont",
+        "cpu",
+        "gpu",
+        "memory",
+        "swap",
+        "disk",
+        "localip",
+        "battery",
+        "poweradapter",
+        "locale",
+        "break",
+        "colors"
+    ]
+}

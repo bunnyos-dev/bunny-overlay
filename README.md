@@ -7,6 +7,7 @@ The Gentoo overlay for [Bunny Linux](https://github.com/bunnyos-dev/bunnyos):
 |---|---|
 | `app-admin/bunny-bin` | The latest bunny release, prebuilt. Installs in seconds. |
 | `app-admin/bunny` | bunny built from the latest code on GitHub (`-9999`). For testing what's coming. |
+| `sys-apps/bunny-release` | Says the system is Bunny Linux (`/etc/os-release`), with the logo for fastfetch (a placeholder for now). |
 
 ## Add the overlay
 
@@ -26,6 +27,11 @@ bunny --version
 ```
 
 Then follow the guide: https://bunnyos-dev.github.io/bunnyos/
+
+## Replacing Gentoo's packages
+
+A package here with the same name as one in Gentoo's tree replaces Gentoo's.
+Each of those needs a reason in [OVERRIDES.md](OVERRIDES.md); CI checks it.
 
 ## Licence
 
