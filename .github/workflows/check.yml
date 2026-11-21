@@ -32,7 +32,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        package: [app-admin/bunny-bin, app-admin/bunny]
+        package: [app-admin/bunny-bin, app-admin/bunny, sys-apps/bunny-release]
     container:
       image: gentoo/stage3:latest
     steps:
@@ -55,6 +55,20 @@ jobs:
       - name: Install
         run: emerge --quiet-build --oneshot "${{ matrix.package }}"
       - name: Run it
+        if: startsWith(matrix.package, 'app-admin/bunny')
         run: |
           bunny --version
           bunny check --help >/dev/null
+      - name: Check the system says Bunny Linux
+        if: matrix.package == 'sys-apps/bunny-release'
+        run: |
+          set -x
+          [ "$(readlink /etc/os-release)" = ../usr/lib/bunny-release/os-release ]
+          . /etc/os-release
+          [ "$ID" = bunny ] && [ "$ID_LIKE" = gentoo ] && [ "$NAME" = "Bunny Linux" ]
+          grep -Eq "^NAME=['\"]?Gentoo" /usr/lib/os-release
+          grep -q PLACEHOLDER /usr/share/bunny-release/logo.txt
+          [ -f /etc/xdg/fastfetch/config.jsonc ]
+          # Removing it gives Gentoo's link back.
+          emerge --quiet --unmerge sys-apps/bunny-release
+          [ "$(readlink /etc/os-release)" = ../usr/lib/os-release ]

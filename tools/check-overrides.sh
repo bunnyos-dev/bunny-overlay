@@ -6,6 +6,8 @@
 # Fails if a package in the overlay also exists in the Gentoo tree but has no
 # row in OVERRIDES.md, or if a row names a package that no longer shadows one.
 # Rows look like: | `category/name` | why | upstream |
+# Also fails if a "Files replaced" row names a package that isn't here:
+# | `/path/to/file` | `category/name` | Gentoo's owner | why | upstream |
 set -eu
 
 if [ $# -ne 2 ]; then
@@ -40,9 +42,18 @@ while read -r pkg; do
 done <"$tmp/overlay"
 sort -u -o "$tmp/shadowed" "$tmp/shadowed"
 
-# Packages listed in OVERRIDES.md (first column, in backticks).
-sed -n 's/^| *`\([^`/]*\/[^`]*\)` *|.*/\1/p' "$overlay/OVERRIDES.md" \
+# Packages listed in OVERRIDES.md (first column, in backticks), from "The
+# list" only: the "Files replaced" table is checked separately below.
+# shellcheck disable=SC2016  # the backticks are Markdown, not shell
+sed -n '/^## The list/,/^## /p' "$overlay/OVERRIDES.md" \
+	| sed -n 's/^| *`\([^`/]*\/[^`]*\)` *|.*/\1/p' \
 	| sort -u >"$tmp/listed"
+
+# Files replaced: | `/path` | `category/name` | ... Each must name a package
+# in this overlay.
+# shellcheck disable=SC2016  # the backticks are Markdown, not shell
+sed -n '/^## Files replaced/,/^## /p' "$overlay/OVERRIDES.md" \
+	| sed -n 's/^| *`\(\/[^`]*\)` *| *`\([^`]*\)` *|.*/\1 \2/p' >"$tmp/files"
 
 missing=$(comm -23 "$tmp/shadowed" "$tmp/listed")
 stale=$(comm -13 "$tmp/shadowed" "$tmp/listed")
@@ -60,8 +71,15 @@ if [ -n "$stale" ]; then
 	echo "  Remove their rows (Gentoo dropped them, or the overlay did)."
 	status=1
 fi
+while read -r file pkg; do
+	if ! grep -qx "$pkg" "$tmp/overlay"; then
+		echo "✗ OVERRIDES.md says $pkg replaces $file, but there's no $pkg in this overlay."
+		status=1
+	fi
+done <"$tmp/files"
 if [ $status -eq 0 ]; then
 	count=$(wc -l <"$tmp/shadowed" | tr -d ' ')
-	echo "✓ OVERRIDES.md is up to date ($count package(s) replace Gentoo's)."
+	files=$(wc -l <"$tmp/files" | tr -d ' ')
+	echo "✓ OVERRIDES.md is up to date ($count package(s) and $files file(s) replace Gentoo's)."
 fi
 exit $status
