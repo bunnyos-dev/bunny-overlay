@@ -67,7 +67,7 @@ jobs:
           . /etc/os-release
           [ "$ID" = bunny ] && [ "$ID_LIKE" = gentoo ] && [ "$NAME" = "Bunny Linux" ]
           grep -Eq "^NAME=['\"]?Gentoo" /usr/lib/os-release
-          grep -q PLACEHOLDER /usr/share/bunny-release/logo.txt
+          [ -s /usr/share/bunny-release/logo.txt ]
           [ -f /etc/xdg/fastfetch/config.jsonc ]
           # Removing it gives Gentoo's link back.
           emerge --quiet --unmerge sys-apps/bunny-release
